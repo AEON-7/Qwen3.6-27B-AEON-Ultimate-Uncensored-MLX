@@ -1,0 +1,22 @@
+# model weights — published to Hugging Face, far too large for git
+bf16/
+out/
+mtp-drafter/
+*.safetensors
+*.gguf
+*.bin
+
+# caches / scratch
+.cache/
+**/.cache/
+research/*.txt
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+
+# internal build notes + card snippets (spliced into the published cards)
+RESUME.md
+DATAPACK.md
+cards/_clause.md
+cards/_support.md

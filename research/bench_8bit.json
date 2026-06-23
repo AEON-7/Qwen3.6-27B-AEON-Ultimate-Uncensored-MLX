@@ -1,0 +1,10 @@
+{
+  "model": "out/mlx8bit",
+  "runs": 5,
+  "max_tokens": 200,
+  "gen_tps_median": 8.2,
+  "gen_tps_peak": 8.2,
+  "prompt_tps_median": 73.0,
+  "ttft_ms_median": 659.0,
+  "peak_memory_gb": 29.85
+}

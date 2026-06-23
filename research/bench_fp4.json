@@ -1,0 +1,10 @@
+{
+  "model": "out/mxfp4-mixed",
+  "runs": 5,
+  "max_tokens": 200,
+  "gen_tps_median": 15.2,
+  "gen_tps_peak": 15.2,
+  "prompt_tps_median": 79.0,
+  "ttft_ms_median": 604.0,
+  "peak_memory_gb": 17.07
+}
