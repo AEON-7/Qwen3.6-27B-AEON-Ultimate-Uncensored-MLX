@@ -99,6 +99,12 @@ Remove the three `--draft-*` flags to disable. *(The MTP sweep below was measure
 
 KV-cache quant for long context (optional): `--kv-bits 8 --kv-group-size 64 --quantized-kv-start 1024`. `--max-kv-size` is ignored under `--kv-bits`; `--prefill-step-size` is inert under MTP.
 
+## 📊 Benchmarks at a glance
+
+![Decode throughput and peak memory — 8bit vs FP4 vs FP4+MTP](assets/bench_throughput_memory.svg)
+
+*Max-fidelity 8-bit: **8.2 tok/s / 29.85 GB**. The compact FP4 sibling runs ~1.85× faster, and the native MTP drafter adds up to 1.78× more (lossless). Full tables below.*
+
 ## 🖥️ Minimum specs & unified memory
 
 | | MLX-8bit (this build) |

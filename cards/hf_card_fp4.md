@@ -101,6 +101,14 @@ Lossless — every token verified against the target. Remove the three `--draft-
 
 Want maximum fidelity? The near-lossless [**MLX-8bit** build](https://huggingface.co/AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-MLX-8bit) is the sibling.
 
+## 📊 Benchmarks at a glance
+
+![Decode throughput and peak memory — 8bit vs FP4 vs FP4+MTP](assets/bench_throughput_memory.svg)
+
+![Per-category decode throughput — baseline vs MTP](assets/bench_categories_tps.svg)
+
+*FP4: **15.2 tok/s / 17 GB**, or **up to 26.5 tok/s** with MTP self-speculation (1.78× lossless; 1.4–1.7× typical per category). Full tables + the block-size sweep + per-category latency are below.*
+
 ## 🖥️ Minimum specs & unified memory
 
 | | MLX-FP4 (this build) |
