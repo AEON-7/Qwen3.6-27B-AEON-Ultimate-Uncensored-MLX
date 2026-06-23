@@ -11,24 +11,32 @@ tags:
   - mlx-vlm
   - apple-silicon
   - metal
-  - mxfp4
-  - fp4
   - mixed-precision
   - quantized
   - qwen
   - qwen3
+  - qwen3.6
   - qwen3_5
   - multimodal
   - vision
+  - image-text-to-text
   - mtp
   - speculative-decoding
   - gated-deltanet
+  - mamba
+  - ssm
+  - linear-attention
   - uncensored
   - abliterated
+  - refusal-removed
   - aeon
   - aeon-7
   - m4-pro
   - on-device
+  - conversational
+  - mxfp4
+  - fp4
+  - 4-bit
 ---
 
 # Qwen3.6-27B-AEON-Ultimate-Uncensored — MLX FP4 (mixed mxfp4 + 8-bit islands, compact)

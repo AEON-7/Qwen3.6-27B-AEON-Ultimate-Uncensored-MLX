@@ -7,10 +7,21 @@ base_model: AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-BF16
 base_model_relation: quantized
 tags:
   - mlx
+  - mlx-vlm
   - mtp
   - speculative-decoding
+  - self-speculation
   - qwen3_5_mtp
   - qwen3_5
+  - qwen3
+  - qwen3.6
+  - qwen
+  - draft-model
+  - multi-token-prediction
+  - apple-silicon
+  - metal
+  - on-device
+  - aeon
   - aeon-7
 ---
 
