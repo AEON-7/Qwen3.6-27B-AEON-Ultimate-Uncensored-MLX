@@ -29,6 +29,8 @@ curl http://localhost:8080/v1/chat/completions -H 'Content-Type: application/jso
        "temperature":1.0,"max_tokens":64}'
 ```
 
+**To run without MTP** (≈1.6 GB less unified memory, but ~1.4–1.7× slower decode): drop the two `--draft-*` lines from step 2 — the target then serves alone. MTP is lossless (every drafted token is verified), so keep it on unless you're memory-constrained.
+
 If step 3 returns a JSON body with a non-empty `choices[0].message.content`, **you are done.** Everything below is the explanation, the 8-bit alternative, the two gotchas, and troubleshooting.
 
 ---

@@ -56,11 +56,16 @@ This is the **smallest** member of the MLX quant grid (16 GB) and the **fastest 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh && source $HOME/.local/bin/env   # one-time: install uv
 
-# serve FP4 (compact, fast) — uv fetches Python 3.12 + mlx-vlm(main) on first run
+# serve FP4 + MTP self-speculation (recommended default — up to 1.78× lossless).
+# uv fetches Python 3.12 + mlx-vlm(main) on first run. --model and --draft-model are HF repo ids,
+# so mlx-vlm pulls BOTH the 16 GB model and the 821 MB MTP drafter automatically on first run.
 uv run --python 3.12 --with "mlx-vlm @ git+https://github.com/Blaizzy/mlx-vlm" -- \
   python -m mlx_vlm.server --model AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-MLX-FP4 \
+  --draft-model AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-MLX-MTP-Drafter --draft-kind mtp --draft-block-size 3 \
   --port 8080 --trust-remote-code
 ```
+
+`--draft-block-size 3` is the benchmarked sweet spot. MTP is **lossless** — every drafted token is verified against the target, so the output is byte-identical to running without it, just faster. *(Prefer to pre-fetch the drafter explicitly? `hf download AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-MLX-MTP-Drafter`.)*
 
 Call it like an OpenAI endpoint (`POST http://localhost:8080/v1/chat/completions`) with the request `"model"` set to the launched id. *(While this repo is private, run `hf auth login` first — or pass a local `--model` path.)*
 
@@ -78,24 +83,25 @@ curl http://localhost:8080/v1/chat/completions -H 'Content-Type: application/jso
 ```bash
 uv run --python 3.12 --with "mlx-vlm @ git+https://github.com/Blaizzy/mlx-vlm" -- \
   python -m mlx_vlm.generate --model AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-MLX-FP4 \
+  --draft-model AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-MLX-MTP-Drafter --draft-kind mtp --draft-block-size 3 \
   --prompt "Explain gated DeltaNet." --max-tokens 512 --temperature 1.0   # add --image pic.jpg for vision
 ```
 </details>
 
-### ⚡⚡ +MTP self-speculation — 26.5 tok/s, 1.78× lossless (the headline)
+<details><summary>Run <strong>without</strong> MTP — ~1.6 GB less unified memory, but slower</summary>
 
-Qwen ships a **properly-trained, native `qwen3_5_mtp` multi-token-prediction head** as a separate 821 MB drafter that *proposes* tokens this model then *verifies*. Because every token is verified, the **output is identical** — purely a throughput boost. **Use `--draft-block-size 3`** — the benchmarked sweet spot on this quant. This is no toy MTP: it lands **1.78×** (94.7% accept rate, 2.89 accepted tokens/round), far better than Gemma's ~1.1–1.2×.
-
-**To run FP4 + MTP, add the three `--draft-*` flags:**
+MTP is the recommended default (lossless + faster). If you're tight on unified memory, drop the three `--draft-*` flags to serve the target alone — that frees the 821 MB drafter plus its speculative buffers (**~1.6 GB less peak RAM**: ~17.0 vs 18.7 GB) at the cost of the speedup (**~1.4–1.7× slower decode**):
 
 ```bash
 uv run --python 3.12 --with "mlx-vlm @ git+https://github.com/Blaizzy/mlx-vlm" -- \
   python -m mlx_vlm.server --model AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-MLX-FP4 \
-  --port 8080 --trust-remote-code \
-  --draft-model AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-MLX-MTP-Drafter --draft-kind mtp --draft-block-size 3
+  --port 8080 --trust-remote-code
 ```
+</details>
 
-Lossless — every token verified against the target. Remove the three `--draft-*` flags to disable.
+### ⚡⚡ Why MTP is on by default
+
+Qwen ships a **properly-trained, native `qwen3_5_mtp` multi-token-prediction head**, packaged as a separate 821 MB drafter that *proposes* tokens this model then *verifies*. Because every token is verified, the **output is identical** — purely a throughput boost. `--draft-block-size 3` is the benchmarked sweet spot: **1.78×** (94.7% accept rate, 2.89 accepted tokens/round), far better than Gemma's ~1.1–1.2×.
 
 ![MTP block-size sweep — bs=3 is the 1.78× sweet spot](assets/bench_mtp_sweep.svg)
 
