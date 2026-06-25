@@ -59,6 +59,24 @@ uv run --python 3.12 --with "mlx-vlm @ git+https://github.com/Blaizzy/mlx-vlm" -
 - KV-cache quant (optional, long context): `--kv-bits 8 --kv-group-size 64 --quantized-kv-start 1024`.
 - `--max-kv-size` is ignored under `--kv-bits`; `--prefill-step-size` is inert under MTP.
 
+### ⚡ Prefix caching — the multi-turn / agentic win (~11× faster TTFT)
+
+For **repeated or growing prompts** (multi-turn chat, agentic loops, RAG over a shared context), enable the **Automatic Prefix Cache** (cross-request KV reuse): the shared prefix is kept and only *new* tokens are prefilled. Measured on this FP4 build — a 4-turn conversation over a ~1,560-token shared prefix:
+
+| | turn 1 | turn 2 | turn 3 | turn 4 |
+|---|---:|---:|---:|---:|
+| off (default) | 14.3 s | 14.2 s | 14.4 s | 14.8 s |
+| **on** | 13.7 s | **1.3 s** | **1.2 s** | **1.2 s** |
+
+**~11× faster TTFT from turn 2 on** — lossless, multimodal-safe, zero decode cost. (The vision-feature cache is already on by default, so a repeated image isn't re-encoded.) Enable with `APC_ENABLED=1` (works on stock git-main today); a `--enable-prefix-caching` flag is [pending upstream](https://github.com/Blaizzy/mlx-vlm):
+
+```bash
+APC_ENABLED=1 uv run --python 3.12 --with "mlx-vlm @ git+https://github.com/Blaizzy/mlx-vlm" -- \
+  python -m mlx_vlm.server --model AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-MLX-FP4 \
+  --draft-model AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-MLX-MTP-Drafter --draft-kind mtp --draft-block-size 3 \
+  --port 8080 --trust-remote-code
+```
+
 ## 🏆 Performance — measured on **MacBook Pro · Apple M4 Pro · 48 GB · mlx-vlm git main**
 
 > Use these as a *relative reference for your own Mac*: a base **M4 / M3** runs somewhat slower, an **M4 Max / Ultra** notably faster. MLX single-stream throughput is mostly memory-bandwidth bound (the M4 Pro moves ~273 GB/s). Greedy, post-warmup unless noted.
