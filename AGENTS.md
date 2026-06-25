@@ -31,6 +31,8 @@ curl http://localhost:8080/v1/chat/completions -H 'Content-Type: application/jso
 
 **To run without MTP** (≈1.6 GB less unified memory, but ~1.4–1.7× slower decode): drop the two `--draft-*` lines from step 2 — the target then serves alone. MTP is lossless (every drafted token is verified), so keep it on unless you're memory-constrained.
 
+**For multi-turn / agentic loops, enable prefix caching** — set `APC_ENABLED=1` (or pass `--enable-prefix-caching`, proposed in [mlx-vlm#1435](https://github.com/Blaizzy/mlx-vlm/pull/1435)). The shared conversation prefix is reused across requests (suffix-only prefill from turn 2): **measured ~11× faster TTFT (14.3 s → 1.2 s on turn 2+)**, lossless, multimodal-safe. The vision-feature cache is already on by default (a repeated image isn't re-encoded). This is the single biggest latency win for repeated/growing prompts — far bigger than any decode trick. Off by default, the server re-prefills the entire history every turn.
+
 If step 3 returns a JSON body with a non-empty `choices[0].message.content`, **you are done.** Everything below is the explanation, the 8-bit alternative, the two gotchas, and troubleshooting.
 
 ---

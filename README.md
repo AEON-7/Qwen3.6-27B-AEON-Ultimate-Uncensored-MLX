@@ -68,7 +68,7 @@ For **repeated or growing prompts** (multi-turn chat, agentic loops, RAG over a 
 | off (default) | 14.3 s | 14.2 s | 14.4 s | 14.8 s |
 | **on** | 13.7 s | **1.3 s** | **1.2 s** | **1.2 s** |
 
-**~11× faster TTFT from turn 2 on** — lossless, multimodal-safe, zero decode cost. (The vision-feature cache is already on by default, so a repeated image isn't re-encoded.) Enable with `APC_ENABLED=1` (works on stock git-main today); a `--enable-prefix-caching` flag is [pending upstream](https://github.com/Blaizzy/mlx-vlm):
+**~11× faster TTFT from turn 2 on** — lossless, multimodal-safe, zero decode cost. (The vision-feature cache is already on by default, so a repeated image isn't re-encoded.) Enable with `APC_ENABLED=1` (works on stock git-main today); a `--enable-prefix-caching` flag is proposed upstream in [mlx-vlm#1435](https://github.com/Blaizzy/mlx-vlm/pull/1435):
 
 ```bash
 APC_ENABLED=1 uv run --python 3.12 --with "mlx-vlm @ git+https://github.com/Blaizzy/mlx-vlm" -- \
