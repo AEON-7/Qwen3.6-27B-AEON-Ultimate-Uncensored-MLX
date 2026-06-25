@@ -112,6 +112,10 @@ KV-cache quant for long context (optional): `--kv-bits 8 --kv-group-size 64 --qu
 
 *Max-fidelity 8-bit: **8.2 tok/s / 29.85 GB**. The compact FP4 sibling runs ~1.85× faster, and the native MTP drafter adds up to 1.78× more (lossless). Full tables below.*
 
+## ⚡ Prefix caching — the multi-turn / agentic win (~11× faster TTFT)
+
+For multi-turn chat, agentic loops, or RAG over a shared context, enable the **Automatic Prefix Cache** (cross-request KV reuse) — **~11× faster TTFT from turn 2** (measured 14.3 s → 1.2 s on the FP4 sibling; the same APC applies here), lossless, multimodal-safe, zero decode cost. The vision-feature cache is already on by default. Set `APC_ENABLED=1`, or pass `--enable-prefix-caching` ([mlx-vlm#1435](https://github.com/Blaizzy/mlx-vlm/pull/1435)). For repeated/growing prompts this dwarfs any decode-speed trick.
+
 ## 🖥️ Minimum specs & unified memory
 
 | | MLX-8bit (this build) |

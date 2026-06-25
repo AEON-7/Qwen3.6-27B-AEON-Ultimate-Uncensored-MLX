@@ -115,6 +115,10 @@ Want maximum fidelity? The near-lossless [**MLX-8bit** build](https://huggingfac
 
 *FP4: **15.2 tok/s / 17 GB**, or **up to 26.5 tok/s** with MTP self-speculation (1.78× lossless; 1.4–1.7× typical per category). Full tables + the block-size sweep + per-category latency are below.*
 
+## ⚡ Prefix caching — the multi-turn / agentic win (~11× faster TTFT)
+
+For multi-turn chat, agentic loops, or RAG over a shared context, enable the **Automatic Prefix Cache** (cross-request KV reuse): the shared conversation prefix is reused, so only new tokens are prefilled — **measured ~11× faster TTFT from turn 2** (14.3 s → 1.2 s on this FP4 build), lossless, multimodal-safe, zero decode cost. The vision-feature cache is already on by default (a repeated image isn't re-encoded). Set `APC_ENABLED=1`, or pass `--enable-prefix-caching` ([mlx-vlm#1435](https://github.com/Blaizzy/mlx-vlm/pull/1435)). For repeated/growing prompts this dwarfs any decode-speed trick.
+
 ## 🖥️ Minimum specs & unified memory
 
 | | MLX-FP4 (this build) |
