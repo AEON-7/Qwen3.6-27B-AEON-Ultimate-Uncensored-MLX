@@ -1,5 +1,7 @@
 # Qwen3.6-27B-AEON-Ultimate-Uncensored — MLX (Apple Silicon · Metal)
 
+![AEON Qwen — Supreme Being of the Digital Cosmos](cartridge.jpg)
+
 [![HF · MLX 8-bit](https://img.shields.io/badge/🤗%20HF-MLX%208bit-FFD21E)](https://huggingface.co/AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-MLX-8bit)
 [![HF · MLX FP4](https://img.shields.io/badge/🤗%20HF-MLX%20FP4-FFD21E)](https://huggingface.co/AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-MLX-FP4)
 [![HF · MTP Drafter](https://img.shields.io/badge/🤗%20HF-MTP%20Drafter-FFD21E)](https://huggingface.co/AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-MLX-MTP-Drafter)
