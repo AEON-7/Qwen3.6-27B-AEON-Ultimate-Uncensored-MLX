@@ -1,5 +1,10 @@
 # Qwen3.6-27B-AEON-Ultimate-Uncensored — MLX (Apple Silicon · Metal)
 
+> [!IMPORTANT]
+> **Prefer Qwen3.8 for new deploys:** [HF NVFP4-MIXED](https://huggingface.co/AEON-7/Qwen3.8-27B-AEON-ULTIMATE-UNCENSORED-NVFP4-MIXED) · [GitHub recipe card](https://github.com/AEON-7/Qwen3.8-27B-AEON-ULTIMATE-UNCENSORED) (Spark Dynamic DFlash lattice, TP=2, RTX).
+> This Qwen3.6 card remains for existing deployments and history.
+
+
 ![AEON Qwen — Supreme Being of the Digital Cosmos](cartridge.jpg)
 
 [![HF · MLX 8-bit](https://img.shields.io/badge/🤗%20HF-MLX%208bit-FFD21E)](https://huggingface.co/AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-MLX-8bit)
